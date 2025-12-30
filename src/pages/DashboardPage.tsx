@@ -1,0 +1,127 @@
+import React, { useState } from 'react';
+import { Home, Building2, MapPin, Phone, Mail, User } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { mockSchools } from '@/data/mockData';
+import PageHeader from '@/components/ui/PageHeader';
+import DataCard from '@/components/ui/DataCard';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+
+const DashboardPage: React.FC = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const schoolData = mockSchools.find(s => s.school_code === user?.school_code) || mockSchools[0];
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    toast({
+      title: 'อัปเดตข้อมูลสำเร็จ',
+      description: 'ข้อมูลได้รับการอัปเดตเรียบร้อยแล้ว',
+    });
+    setIsRefreshing(false);
+  };
+
+  return (
+    <div>
+      <PageHeader
+        title="ข้อมูลทั่วไป"
+        subtitle="ข้อมูลสนามสอบและรายละเอียดสถานศึกษา"
+        icon={<Home className="w-6 h-6" />}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefreshing}
+      />
+
+      <div className="grid gap-6">
+        {/* School Info Card */}
+        <Card className="shadow-card">
+          <CardHeader className="border-b border-border bg-muted/30">
+            <CardTitle className="flex items-center gap-3 text-xl">
+              <Building2 className="w-6 h-6 text-primary" />
+              {schoolData.school_name}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">ที่อยู่</p>
+                    <p className="text-foreground">{schoolData.address}</p>
+                    <p className="text-foreground">{schoolData.district} {schoolData.province}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <User className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">ผู้อำนวยการโรงเรียน</p>
+                    <p className="text-foreground font-medium">{schoolData.director}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">โทรศัพท์</p>
+                    <p className="text-foreground">{schoolData.phone}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">อีเมล</p>
+                    <p className="text-foreground">{schoolData.email}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Stats Cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <DataCard
+            title="รหัสสนามสอบ"
+            value={schoolData.school_code}
+            icon={<Building2 className="w-6 h-6" />}
+          />
+          <DataCard
+            title="จำนวนผู้เข้าสอบ"
+            value="830"
+            subtitle="ม.3 + ม.6"
+            icon={<User className="w-6 h-6" />}
+          />
+          <DataCard
+            title="จำนวนห้องสอบ"
+            value="28"
+            subtitle="รวมทุกระดับชั้น"
+            icon={<Home className="w-6 h-6" />}
+          />
+          <DataCard
+            title="กรรมการคุมสอบ"
+            value="56"
+            subtitle="+ สำรอง 9 คน"
+            icon={<User className="w-6 h-6" />}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardPage;
