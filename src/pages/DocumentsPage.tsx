@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FolderOpen, FileText, Download, ExternalLink, Book, Mail, ClipboardList } from 'lucide-react';
 import { mockDocuments } from '@/data/mockData';
 import PageHeader from '@/components/ui/PageHeader';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
@@ -11,7 +11,7 @@ const DocumentsPage: React.FC = () => {
   const { toast } = useToast();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const documents = mockDocuments.filter(d => d.is_active);
+  const documents = mockDocuments;
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -23,30 +23,24 @@ const DocumentsPage: React.FC = () => {
     setIsRefreshing(false);
   };
 
-  const getDocIcon = (type: string) => {
-    switch (type) {
-      case 'คำสั่ง':
-        return <ClipboardList className="w-6 h-6" />;
-      case 'คู่มือ':
-        return <Book className="w-6 h-6" />;
-      case 'หนังสือแจ้ง':
-        return <Mail className="w-6 h-6" />;
-      default:
-        return <FileText className="w-6 h-6" />;
-    }
+  const getDocIcon = (docName: string) => {
+    if (docName.includes('คำสั่ง')) return <ClipboardList className="w-6 h-6" />;
+    if (docName.includes('คู่มือ')) return <Book className="w-6 h-6" />;
+    if (docName.includes('หนังสือ')) return <Mail className="w-6 h-6" />;
+    return <FileText className="w-6 h-6" />;
   };
 
-  const getDocBadgeVariant = (type: string) => {
-    switch (type) {
-      case 'คำสั่ง':
-        return 'default';
-      case 'คู่มือ':
-        return 'secondary';
-      case 'หนังสือแจ้ง':
-        return 'outline';
-      default:
-        return 'outline';
-    }
+  const getDocType = (docName: string) => {
+    if (docName.includes('คำสั่ง')) return 'คำสั่ง';
+    if (docName.includes('คู่มือ')) return 'คู่มือ';
+    if (docName.includes('หนังสือ')) return 'หนังสือแจ้ง';
+    return 'แบบฟอร์ม';
+  };
+
+  const getDocBadgeVariant = (docName: string) => {
+    if (docName.includes('คำสั่ง')) return 'default';
+    if (docName.includes('คู่มือ')) return 'secondary';
+    return 'outline';
   };
 
   const formatDate = (dateStr: string) => {
@@ -71,32 +65,32 @@ const DocumentsPage: React.FC = () => {
       <div className="grid gap-4">
         {documents.map((doc) => (
           <Card 
-            key={doc.doc_id} 
+            key={doc.docId} 
             className="shadow-card hover:shadow-elevated transition-all duration-300 group"
           >
             <CardContent className="p-4 md:p-6">
               <div className="flex flex-col md:flex-row md:items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  {getDocIcon(doc.doc_type)}
+                  {getDocIcon(doc.docName)}
                 </div>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <Badge variant={getDocBadgeVariant(doc.doc_type) as any}>
-                      {doc.doc_type}
+                    <Badge variant={getDocBadgeVariant(doc.docName) as any}>
+                      {getDocType(doc.docName)}
                     </Badge>
                     <span className="text-sm text-muted-foreground">
-                      {formatDate(doc.created_at)}
+                      {formatDate(doc.uploadDate)}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-foreground line-clamp-2">{doc.doc_name}</h3>
+                  <h3 className="font-semibold text-foreground line-clamp-2">{doc.docName}</h3>
                 </div>
 
                 <div className="flex gap-2 md:flex-shrink-0">
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => window.open(doc.doc_url, '_blank')}
+                    onClick={() => window.open(doc.docUrl, '_blank')}
                     className="gap-2"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -108,7 +102,7 @@ const DocumentsPage: React.FC = () => {
                     onClick={() => {
                       toast({
                         title: 'กำลังดาวน์โหลด...',
-                        description: doc.doc_name,
+                        description: doc.docName,
                       });
                     }}
                     className="gap-2"

@@ -1,61 +1,62 @@
 export type UserRole = 'school' | 'supervisor' | 'admin';
 
 export interface User {
-  user_id: string;
+  userId: string;
   username: string;
   password: string;
   role: UserRole;
-  school_code: string;
-  full_name: string;
-  is_active: boolean;
+  isActive: boolean;
 }
 
 export interface SchoolData {
-  school_code: string;
-  school_name: string;
+  schoolId: string;
+  schoolName: string;
+  principalName: string;
+  contactNumber: string;
   address: string;
-  district: string;
   province: string;
-  director: string;
-  phone: string;
-  email: string;
-  supervisor_id: string;
+  latitude: number;
+  longitude: number;
+  schoolType: string;
+  status: string;
 }
 
 export interface ExamDetail {
-  school_code: string;
-  exam_date: string;
-  exam_level: string;
-  subject: string;
-  total_students: number;
-  total_rooms: number;
-  proctors: number;
-  backup_proctors: number;
+  examId: string;
+  schoolId: string;
+  examName: string;
+  examDate: string;
+  startTime: string;
+  endTime: string;
+  capacity: number;
+  registered: number;
+  level: string;
 }
 
 export interface BudgetItem {
-  school_code: string;
-  item_name: string;
-  description: string;
-  unit_price: number;
-  quantity: number;
-  unit: string;
-  total: number;
+  budgetId: string;
+  schoolId: string;
+  examId: string;
+  item: string;
+  estimatedCost: number;
+  actualCost: number;
+  variance: number;
 }
 
 export interface Document {
-  doc_id: string;
-  doc_name: string;
-  doc_type: string;
-  doc_url: string;
-  is_active: boolean;
-  created_at: string;
+  docId: string;
+  schoolId: string;
+  examId: string;
+  docName: string;
+  docUrl: string;
+  uploadDate: string;
 }
 
 export interface Settings {
-  key: string;
-  value: string;
-  is_active: boolean;
+  settingId: string;
+  logoUrl: string;
+  activeSheets: string[];
+  lastUpdated: string;
 }
 
 export interface AuthContextType {

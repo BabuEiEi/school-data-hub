@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Settings, Image, FileSpreadsheet } from 'lucide-react';
 import { mockSettings } from '@/data/mockData';
 import PageHeader from '@/components/ui/PageHeader';
@@ -10,11 +10,22 @@ import { Button } from '@/components/ui/button';
 import Swal from 'sweetalert2';
 
 const AdminSettingsPage: React.FC = () => {
+  const [logoUrl, setLogoUrl] = useState(mockSettings.logoUrl);
+  const [activeSheets, setActiveSheets] = useState(mockSettings.activeSheets);
+
+  const availableSheets = ['Data', 'ExamDetails', 'Budget', 'Documents', 'Users', 'Settings'];
+
   const handleSave = () => {
     Swal.fire({ icon: 'success', title: 'บันทึกการตั้งค่าสำเร็จ', timer: 1500, showConfirmButton: false });
   };
 
-  const sheets = mockSettings.filter(s => s.key.startsWith('sheet_'));
+  const toggleSheet = (sheet: string) => {
+    if (activeSheets.includes(sheet)) {
+      setActiveSheets(activeSheets.filter(s => s !== sheet));
+    } else {
+      setActiveSheets([...activeSheets, sheet]);
+    }
+  };
 
   return (
     <div>
@@ -27,7 +38,12 @@ const AdminSettingsPage: React.FC = () => {
           </CardHeader>
           <CardContent className="p-6">
             <Label>ลิงค์รูปโลโก้</Label>
-            <Input placeholder="https://..." className="mt-2" defaultValue={mockSettings.find(s => s.key === 'logo_url')?.value} />
+            <Input 
+              placeholder="https://..." 
+              className="mt-2" 
+              value={logoUrl}
+              onChange={(e) => setLogoUrl(e.target.value)}
+            />
           </CardContent>
         </Card>
 
@@ -36,10 +52,13 @@ const AdminSettingsPage: React.FC = () => {
             <CardTitle className="flex items-center gap-2"><FileSpreadsheet className="w-5 h-5 text-primary" />Active ชีต</CardTitle>
           </CardHeader>
           <CardContent className="p-6 space-y-4">
-            {sheets.map((sheet, i) => (
-              <div key={sheet.key} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <span>{i + 1}. {sheet.value}</span>
-                <Switch defaultChecked={sheet.is_active} />
+            {availableSheets.map((sheet, i) => (
+              <div key={sheet} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <span>{i + 1}. {sheet}</span>
+                <Switch 
+                  checked={activeSheets.includes(sheet)} 
+                  onCheckedChange={() => toggleSheet(sheet)}
+                />
               </div>
             ))}
           </CardContent>
