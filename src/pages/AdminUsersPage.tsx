@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Users, Plus, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import { Users, Plus, Trash2 } from 'lucide-react';
 import { mockUsers } from '@/data/mockData';
 import PageHeader from '@/components/ui/PageHeader';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +17,7 @@ const AdminUsersPage: React.FC = () => {
       title: 'เพิ่มผู้ใช้ใหม่',
       html: `
         <input id="swal-username" class="swal2-input" placeholder="ชื่อผู้ใช้">
-        <input id="swal-fullname" class="swal2-input" placeholder="ชื่อ-นามสกุล">
+        <input id="swal-password" class="swal2-input" placeholder="รหัสผ่าน" type="password">
         <select id="swal-role" class="swal2-select">
           <option value="school">สถานศึกษา</option>
           <option value="supervisor">ศึกษานิเทศก์</option>
@@ -47,7 +47,7 @@ const AdminUsersPage: React.FC = () => {
     });
 
     if (result.isConfirmed) {
-      setUsers(users.filter(u => u.user_id !== userId));
+      setUsers(users.filter(u => u.userId !== userId));
       Swal.fire({ icon: 'success', title: 'ลบผู้ใช้สำเร็จ', timer: 1500, showConfirmButton: false });
     }
   };
@@ -78,8 +78,8 @@ const AdminUsersPage: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50">
+                <TableHead>รหัสผู้ใช้</TableHead>
                 <TableHead>ชื่อผู้ใช้</TableHead>
-                <TableHead>ชื่อ-นามสกุล</TableHead>
                 <TableHead>บทบาท</TableHead>
                 <TableHead className="text-center">สถานะ</TableHead>
                 <TableHead className="text-center">จัดการ</TableHead>
@@ -87,15 +87,15 @@ const AdminUsersPage: React.FC = () => {
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-                <TableRow key={user.user_id}>
-                  <TableCell className="font-mono">{user.username}</TableCell>
-                  <TableCell className="font-medium">{user.full_name}</TableCell>
+                <TableRow key={user.userId}>
+                  <TableCell className="font-mono text-sm">{user.userId}</TableCell>
+                  <TableCell className="font-medium">{user.username}</TableCell>
                   <TableCell>{getRoleBadge(user.role)}</TableCell>
                   <TableCell className="text-center">
-                    <Switch checked={user.is_active} />
+                    <Switch checked={user.isActive} />
                   </TableCell>
                   <TableCell className="text-center">
-                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDeleteUser(user.user_id)}>
+                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleDeleteUser(user.userId)}>
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </TableCell>

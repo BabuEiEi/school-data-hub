@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Building2, MapPin, Phone, Mail, User } from 'lucide-react';
+import { Home, Building2, MapPin, Phone, User, Globe } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { mockSchools } from '@/data/mockData';
 import PageHeader from '@/components/ui/PageHeader';
@@ -12,7 +12,8 @@ const DashboardPage: React.FC = () => {
   const { toast } = useToast();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const schoolData = mockSchools.find(s => s.school_code === user?.school_code) || mockSchools[0];
+  // For school role, find their school; otherwise show first school
+  const schoolData = mockSchools[0];
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -40,7 +41,7 @@ const DashboardPage: React.FC = () => {
           <CardHeader className="border-b border-border bg-muted/30">
             <CardTitle className="flex items-center gap-3 text-xl">
               <Building2 className="w-6 h-6 text-primary" />
-              {schoolData.school_name}
+              {schoolData.schoolName}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -53,7 +54,7 @@ const DashboardPage: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">ที่อยู่</p>
                     <p className="text-foreground">{schoolData.address}</p>
-                    <p className="text-foreground">{schoolData.district} {schoolData.province}</p>
+                    <p className="text-foreground">จ.{schoolData.province}</p>
                   </div>
                 </div>
 
@@ -63,7 +64,7 @@ const DashboardPage: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">ผู้อำนวยการโรงเรียน</p>
-                    <p className="text-foreground font-medium">{schoolData.director}</p>
+                    <p className="text-foreground font-medium">{schoolData.principalName}</p>
                   </div>
                 </div>
               </div>
@@ -75,17 +76,17 @@ const DashboardPage: React.FC = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">โทรศัพท์</p>
-                    <p className="text-foreground">{schoolData.phone}</p>
+                    <p className="text-foreground">{schoolData.contactNumber}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-primary" />
+                    <Globe className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">อีเมล</p>
-                    <p className="text-foreground">{schoolData.email}</p>
+                    <p className="text-sm font-medium text-muted-foreground">ประเภท / สถานะ</p>
+                    <p className="text-foreground">{schoolData.schoolType} - {schoolData.status}</p>
                   </div>
                 </div>
               </div>
@@ -97,7 +98,7 @@ const DashboardPage: React.FC = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <DataCard
             title="รหัสสนามสอบ"
-            value={schoolData.school_code}
+            value={schoolData.schoolId}
             icon={<Building2 className="w-6 h-6" />}
           />
           <DataCard

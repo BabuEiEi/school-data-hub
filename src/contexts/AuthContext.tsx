@@ -24,7 +24,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await new Promise(resolve => setTimeout(resolve, 500));
     
     const foundUser = mockUsers.find(
-      u => u.username === username && u.password === password && u.is_active
+      u => u.username === username && u.password === password && u.isActive
     );
 
     if (foundUser) {

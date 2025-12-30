@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
           {/* User Info */}
           <div className="mt-4 p-3 rounded-lg bg-sidebar-accent/50">
-            <p className="font-medium text-sm truncate">{user?.full_name}</p>
+            <p className="font-medium text-sm truncate">{user?.username}</p>
             <span className={cn("inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium", roleBadge.className)}>
               {roleBadge.label}
             </span>
