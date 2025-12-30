@@ -1,0 +1,192 @@
+import { User, SchoolData, ExamDetail, BudgetItem, Document, Settings } from '@/types';
+
+export const mockUsers: User[] = [
+  {
+    user_id: 'USR001',
+    username: 'admin',
+    password: 'admin123',
+    role: 'admin',
+    school_code: '',
+    full_name: 'ผู้ดูแลระบบ',
+    is_active: true,
+  },
+  {
+    user_id: 'USR002',
+    username: 'supervisor01',
+    password: 'sup123',
+    role: 'supervisor',
+    school_code: '',
+    full_name: 'นายสมศักดิ์ ใจดี',
+    is_active: true,
+  },
+  {
+    user_id: 'USR003',
+    username: 'school01',
+    password: 'school123',
+    role: 'school',
+    school_code: 'PLK001',
+    full_name: 'โรงเรียนพิษณุโลกพิทยาคม',
+    is_active: true,
+  },
+  {
+    user_id: 'USR004',
+    username: 'school02',
+    password: 'school123',
+    role: 'school',
+    school_code: 'PLK002',
+    full_name: 'โรงเรียนเฉลิมขวัญสตรี',
+    is_active: true,
+  },
+];
+
+export const mockSchools: SchoolData[] = [
+  {
+    school_code: 'PLK001',
+    school_name: 'โรงเรียนพิษณุโลกพิทยาคม',
+    address: '1 ถ.บรมไตรโลกนาถ ต.ในเมือง',
+    district: 'อ.เมืองพิษณุโลก',
+    province: 'จ.พิษณุโลก',
+    director: 'นายวิเชียร อินทะนัก',
+    phone: '055-258456',
+    email: 'plk1@sesao39.go.th',
+    supervisor_id: 'SUP001',
+  },
+  {
+    school_code: 'PLK002',
+    school_name: 'โรงเรียนเฉลิมขวัญสตรี',
+    address: '28 ถ.พุทธบูชา ต.ในเมือง',
+    district: 'อ.เมืองพิษณุโลก',
+    province: 'จ.พิษณุโลก',
+    director: 'นางสาวสุภาพร วิชัยดิษฐ',
+    phone: '055-258789',
+    email: 'plk2@sesao39.go.th',
+    supervisor_id: 'SUP001',
+  },
+  {
+    school_code: 'UTD001',
+    school_name: 'โรงเรียนอุตรดิตถ์',
+    address: '15 ถ.ประชานิยม ต.ท่าอิฐ',
+    district: 'อ.เมืองอุตรดิตถ์',
+    province: 'จ.อุตรดิตถ์',
+    director: 'นายประสิทธิ์ สุวรรณชัย',
+    phone: '055-411234',
+    email: 'utd1@sesao39.go.th',
+    supervisor_id: 'SUP002',
+  },
+];
+
+export const mockExamDetails: ExamDetail[] = [
+  {
+    school_code: 'PLK001',
+    exam_date: '2025-02-22',
+    exam_level: 'ม.3',
+    subject: 'O-NET',
+    total_students: 450,
+    total_rooms: 15,
+    proctors: 30,
+    backup_proctors: 5,
+  },
+  {
+    school_code: 'PLK001',
+    exam_date: '2025-02-23',
+    exam_level: 'ม.6',
+    subject: 'O-NET',
+    total_students: 380,
+    total_rooms: 13,
+    proctors: 26,
+    backup_proctors: 4,
+  },
+  {
+    school_code: 'PLK002',
+    exam_date: '2025-02-22',
+    exam_level: 'ม.3',
+    subject: 'O-NET',
+    total_students: 320,
+    total_rooms: 11,
+    proctors: 22,
+    backup_proctors: 4,
+  },
+];
+
+export const mockBudgetItems: BudgetItem[] = [
+  {
+    school_code: 'PLK001',
+    item_name: 'ค่าอาหารกลางวันกรรมการคุมสอบ',
+    description: 'อาหารกลางวัน 2 วัน',
+    unit_price: 100,
+    quantity: 70,
+    unit: 'คน',
+    total: 7000,
+  },
+  {
+    school_code: 'PLK001',
+    item_name: 'ค่าอาหารว่าง',
+    description: 'อาหารว่าง 2 มื้อ/วัน x 2 วัน',
+    unit_price: 35,
+    quantity: 280,
+    unit: 'ชุด',
+    total: 9800,
+  },
+  {
+    school_code: 'PLK001',
+    item_name: 'ค่าตอบแทนกรรมการคุมสอบ',
+    description: 'กรรมการคุมสอบ 2 วัน',
+    unit_price: 600,
+    quantity: 30,
+    unit: 'คน',
+    total: 18000,
+  },
+  {
+    school_code: 'PLK001',
+    item_name: 'ค่าวัสดุอุปกรณ์',
+    description: 'กระดาษ, ปากกา, อื่นๆ',
+    unit_price: 1500,
+    quantity: 1,
+    unit: 'ชุด',
+    total: 1500,
+  },
+];
+
+export const mockDocuments: Document[] = [
+  {
+    doc_id: 'DOC001',
+    doc_name: 'คำสั่งแต่งตั้งคณะกรรมการดำเนินการสอบ O-NET ปีการศึกษา 2567',
+    doc_type: 'คำสั่ง',
+    doc_url: 'https://drive.google.com/file/d/example1',
+    is_active: true,
+    created_at: '2025-01-15',
+  },
+  {
+    doc_id: 'DOC002',
+    doc_name: 'คู่มือการจัดสอบ O-NET ปีการศึกษา 2567',
+    doc_type: 'คู่มือ',
+    doc_url: 'https://drive.google.com/file/d/example2',
+    is_active: true,
+    created_at: '2025-01-10',
+  },
+  {
+    doc_id: 'DOC003',
+    doc_name: 'หนังสือแจ้งสถานศึกษา เรื่อง การจัดสอบ O-NET',
+    doc_type: 'หนังสือแจ้ง',
+    doc_url: 'https://drive.google.com/file/d/example3',
+    is_active: true,
+    created_at: '2025-01-05',
+  },
+  {
+    doc_id: 'DOC004',
+    doc_name: 'แบบฟอร์มรายงานผลการจัดสอบ',
+    doc_type: 'แบบฟอร์ม',
+    doc_url: 'https://drive.google.com/file/d/example4',
+    is_active: true,
+    created_at: '2025-01-20',
+  },
+];
+
+export const mockSettings: Settings[] = [
+  { key: 'logo_url', value: '', is_active: true },
+  { key: 'sheet_data', value: 'Data', is_active: true },
+  { key: 'sheet_exam_committee', value: 'กก สนามสอบ', is_active: true },
+  { key: 'sheet_exam_details', value: 'รายละเอียดสนามสอบ', is_active: true },
+  { key: 'sheet_budget', value: 'ประมาณงบสนามสอบ', is_active: true },
+  { key: 'sheet_documents', value: 'ลิงค์เอกสาร', is_active: true },
+];
